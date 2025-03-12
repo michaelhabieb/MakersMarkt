@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Credit; 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -49,6 +50,9 @@ class DatabaseSeeder extends Seeder
                 ]
             );
             $admin->assignRole('admin');
+
+            // Voeg 10 credits toe aan de gebruiker
+            Credit::firstOrCreate(['user_id' => $admin->id], ['amount' => 10]);
         }
 
         // Creëer 5 verkopersaccounts
@@ -61,6 +65,9 @@ class DatabaseSeeder extends Seeder
                 ]
             );
             $verkoper->assignRole('verkoper');
+
+            // Voeg 10 credits toe aan de gebruiker
+            Credit::firstOrCreate(['user_id' => $verkoper->id], ['amount' => 10]);
         }
 
         // Creëer 10 gebruikersaccounts
@@ -73,6 +80,9 @@ class DatabaseSeeder extends Seeder
                 ]
             );
             $user->assignRole('user');
+
+            // Voeg 10 credits toe aan de gebruiker
+            Credit::firstOrCreate(['user_id' => $user->id], ['amount' => 10]);
         }
     }
 }

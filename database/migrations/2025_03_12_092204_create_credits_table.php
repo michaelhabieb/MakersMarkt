@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('credits', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->decimal('amount', 8, 2);
             $table->timestamps();
-            $table->decimal('amount');
         });
     }
 
