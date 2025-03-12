@@ -58,4 +58,22 @@ class User extends Authenticatable
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
     }
+
+    /**
+     * Relatie met credits (een gebruiker heeft één credit record)
+     */
+    public function credit()
+    {
+        return $this->hasOne(Credit::class);
+    }
+
+    /**
+     * Zorgt ervoor dat de gebruiker een saldo heeft (bijvoorbeeld 10 credits bij creatie)
+     */
+    public function ensureCredits()
+    {
+        if (!$this->credit) {
+            $this->credit()->create(['amount' => 10]);
+        }
+    }
 }
