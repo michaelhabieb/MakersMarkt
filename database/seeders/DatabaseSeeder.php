@@ -5,6 +5,10 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +17,62 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Reset cached roles and permissions
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Definieer permissies
+        $permissions = [
+            'admin users',
+            'admin presets',
+            'manage sales',
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
+        // Creëer rollen en wijs permissies toe
+        Role::firstOrCreate(['name' => 'admin'])->givePermissionTo(['admin users', 'admin presets']);
+        Role::firstOrCreate(['name' => 'verkoper'])->givePermissionTo('manage sales');
+        Role::firstOrCreate(['name' => 'user']);
+
+        // Bepaal wachtwoord op basis van omgeving
+        $password = config('app.env') === 'production' ? 'sa8aFebqUArIHiO' : 'password';
+
+        // Creëer 2 admin-accounts
+        for ($i = 1; $i <= 2; $i++) {
+            $admin = User::firstOrCreate(
+                ['email' => "admin{$i}@example.com"],
+                [
+                    'name' => "Admin {$i}",
+                    'password' => Hash::make($password),
+                ]
+            );
+            $admin->assignRole('admin');
+        }
+
+        // Creëer 5 verkopersaccounts
+        for ($i = 1; $i <= 5; $i++) {
+            $verkoper = User::firstOrCreate(
+                ['email' => "verkoper{$i}@example.com"],
+                [
+                    'name' => "Verkoper {$i}",
+                    'password' => Hash::make($password),
+                ]
+            );
+            $verkoper->assignRole('verkoper');
+        }
+
+        // Creëer 10 gebruikersaccounts
+        for ($i = 1; $i <= 10; $i++) {
+            $user = User::firstOrCreate(
+                ['email' => "user{$i}@example.com"],
+                [
+                    'name' => "User {$i}",
+                    'password' => Hash::make($password),
+                ]
+            );
+            $user->assignRole('user');
+        }
     }
 }
