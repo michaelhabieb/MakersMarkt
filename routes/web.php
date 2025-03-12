@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
 // Routes voor verkopers
     Route::middleware(['auth', 'role:verkoper|admin'])->prefix('verkoper')->name('verkoper.')->group(function () {
         Route::get('/dashboard', [VerkoperController::class, 'dashboard'])->name('dashboard');
-        // Voeg hier extra routes toe voor verkopers
+        Route::get('/verkopers', [VerkoperController::class, 'index'])->name('verkopers.index');
     });
 
 // Routes voor beheerders (admin)
