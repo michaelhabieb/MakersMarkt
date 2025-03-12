@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+namespace App\Http\Controllers\Verkoper;
+
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 
 class VerkoperController extends Controller
 {
+    public function index()
+    {
+        return view('verkopers.index');
+    }   
     public function __construct()
     {
         // Zorg ervoor dat alleen verkopers toegang hebben
