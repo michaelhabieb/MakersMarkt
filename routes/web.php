@@ -25,19 +25,21 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Routes voor algemene gebruikers (user)
-    Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::middleware(['auth', 'role:user|admin'])->group(function () {
         Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
-
+        // Voeg hier extra routes toe voor gebruikers
     });
 
 // Routes voor verkopers
-    Route::middleware(['auth', 'role:verkoper'])->prefix('verkoper')->name('verkoper.')->group(function () {
+    Route::middleware(['auth', 'role:verkoper|admin'])->prefix('verkoper')->name('verkoper.')->group(function () {
         Route::get('/dashboard', [VerkoperController::class, 'dashboard'])->name('dashboard');
+        // Voeg hier extra routes toe voor verkopers
     });
 
 // Routes voor beheerders (admin)
     Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        // Voeg hier extra routes toe voor beheerders
     });
 });
 
