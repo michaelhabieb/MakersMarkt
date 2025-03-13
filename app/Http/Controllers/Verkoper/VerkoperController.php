@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< Updated upstream
 use App\Models\Product;
 namespace App\Http\Controllers\Verkoper;
 
 use Illuminate\Http\Request;
+=======
+>>>>>>> Stashed changes
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 
 class VerkoperController extends Controller

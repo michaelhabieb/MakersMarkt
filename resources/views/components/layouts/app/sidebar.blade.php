@@ -20,7 +20,9 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Verkopers')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-{{--                    <flux:navlist.item icon="home" :href="route('verkopers.index')" :current="request()->routeIs('verkopers.index')" wire:navigate>{{ __('Index') }}</flux:navlist.item>--}}
+                    <flux:navlist.item :href="route('verkopers.index')" :current="request()->routeIs('verkopers.index')" wire:navigate>
+                        {{ __('Index') }}
+                    </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
             @endrole
@@ -29,6 +31,9 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Verkopers')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('verkopers.index')" :current="request()->routeIs('verkopers.index')" wire:navigate>
+                        {{ __('Index') }}
+                    </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
             @endrole
