@@ -1,41 +1,40 @@
 <?php
 
-namespace App\Http\Controllers;
-
-<<<<<<< Updated upstream
-use App\Models\Product;
 namespace App\Http\Controllers\Verkoper;
 
+use App\Models\Product;
+use App\Models\ProductType;
 use Illuminate\Http\Request;
-=======
->>>>>>> Stashed changes
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
 
 class VerkoperController extends Controller
 {
     public function index()
     {
-        return view('verkopers.index');
-    }   
-    public function __construct()
-    {
-        // Zorg ervoor dat alleen verkopers toegang hebben
-        $this->middleware('role:verkoper');
+        return view('verkopers.products.index');
     }
 
-    // Toon het dashboard van de verkoper
+    // Toon het dashboard met producten van de ingelogde verkoper
     public function dashboard()
     {
-        $products = Product::where('maker_id', auth()->user()->id)->get();
-        return view('verkoper.dashboard', compact('products'));
+        $products = Product::where('maker_id', auth()->id())->get();
+        return view('verkopers.dashboard', compact('products'));
     }
 
-    // Voeg een nieuw product toe
+    public function show($id)
+    {
+        $product = Product::with('productType')->findOrFail($id);
+
+        // Geef het product door aan de view
+        return view('verkopers.products.show', compact('product'));
+    }
+
+
+    // Formulier voor een nieuw product
     public function create()
     {
-        return view('verkoper.products.create');
+        $productTypes = ProductType::all(); // Haal alle producttypes op
+        return view('verkopers.products.create', compact('productTypes'));
     }
 
     // Sla het nieuwe product op
@@ -44,58 +43,73 @@ class VerkoperController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric',
-            // Voeg hier andere validaties toe
+            'product_type_id' => 'required|exists:product_types,id',
+            'material' => 'nullable|string|max:255',
+            'production_time' => 'nullable|string|max:255',
+            'complexity' => 'nullable|string|max:255',
+            'durability' => 'nullable|string|max:255',
+            'unique_features' => 'nullable|string',
         ]);
 
-        $product = new Product([
+        Product::create([
             'name' => $request->name,
             'description' => $request->description,
-            'price' => $request->price,
-            'maker_id' => auth()->user()->id,
+            'product_type_id' => $request->product_type_id,
+            'material' => $request->material,
+            'production_time' => $request->production_time,
+            'complexity' => $request->complexity,
+            'durability' => $request->durability,
+            'unique_features' => $request->unique_features,
+            'maker_id' => auth()->id(),
         ]);
-        
-        $product->save();
 
-        return redirect()->route('verkoper.dashboard')->with('success', 'Product succesvol toegevoegd');
+        return redirect()->route('verkopers.index')->with('success', 'Product succesvol toegevoegd');
     }
 
-    // Toon het formulier om een product te bewerken
+    // Formulier om een product te bewerken
     public function edit($id)
     {
-        $product = Product::where('maker_id', auth()->user()->id)->findOrFail($id);
-        return view('verkoper.products.edit', compact('product'));
+        $productTypes = ProductType::all();
+        $product = Product::where('maker_id', auth()->id())->findOrFail($id);
+        return view('verkopers.products.edit', compact('product','productTypes'));
     }
 
-    // Werk het product bij
+    // Update een bestaand product
     public function update(Request $request, $id)
     {
-        $product = Product::where('maker_id', auth()->user()->id)->findOrFail($id);
+        $product = Product::where('maker_id', auth()->id())->findOrFail($id);
 
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric',
+            'product_type_id' => 'required|exists:product_types,id',
+            'material' => 'nullable|string|max:255',
+            'production_time' => 'nullable|string|max:255',
+            'complexity' => 'nullable|string|max:255',
+            'durability' => 'nullable|string|max:255',
+            'unique_features' => 'nullable|string',
         ]);
 
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        
-        // Andere eigenschappen bijwerken als nodig
-        
-        $product->save();
+        $product->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'product_type_id' => $request->product_type_id,
+            'material' => $request->material,
+            'production_time' => $request->production_time,
+            'complexity' => $request->complexity,
+            'durability' => $request->durability,
+            'unique_features' => $request->unique_features,
+        ]);
 
-        return redirect()->route('verkoper.dashboard')->with('success', 'Product succesvol bijgewerkt');
+        return redirect()->route('verkopers.index')->with('success', 'Product succesvol bijgewerkt');
     }
 
     // Verwijder een product
     public function destroy($id)
     {
-        $product = Product::where('maker_id', auth()->user()->id)->findOrFail($id);
-        
+        $product = Product::where('maker_id', auth()->id())->findOrFail($id);
         $product->delete();
 
-        return redirect()->route('verkoper.dashboard')->with('success', 'Product succesvol verwijderd');
+        return redirect()->route('verkopers.index')->with('success', 'Product succesvol verwijderd');
     }
 }

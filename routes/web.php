@@ -36,7 +36,14 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('verkoper')->name('verkopers.')->group(function () {
         Route::middleware(['auth', 'can:manage verkopers'])->group(function () {
             Route::get('/dashboard', [VerkoperController::class, 'dashboard'])->name('dashboard');
-            Route::get('/', [VerkoperController::class, 'index'])->name('index');
+            Route::get('/verkoop', [VerkoperController::class, 'index'])->name('index');
+            Route::get('/verkoop/create', [VerkoperController::class, 'create'])->name('create');
+            Route::post('/products', [VerkoperController::class, 'store'])->name('store');
+            Route::get('/verkoop/{id}/edit', [VerkoperController::class, 'edit'])->name('edit');
+            Route::put('/verkoop/{id}', [VerkoperController::class, 'update'])->name('update');
+            Route::delete('/verkoop/{id}', [VerkoperController::class, 'destroy'])->name('destroy');
+            Route::get('/verkoop/{id}', [VerkoperController::class, 'show'])->name('show');
+
             // Voeg hier extra routes toe voor verkopers
         });
     });
