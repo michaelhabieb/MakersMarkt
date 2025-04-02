@@ -18,10 +18,8 @@
             </flux:navlist>
             @role('admin')
             <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Admin Paneel')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('admins.dashboard')" :current="request()->routeIs('admins.dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </flux:navlist.item>
+                <flux:navlist.group :heading="__('Admin')" class="grid">
+                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                     <flux:navlist.item icon="banknotes" :href="route('admins.credits')" :current="request()->routeIs('admins.credits')" wire:navigate>
                         {{ __('Credits Beheren') }}
                     </flux:navlist.item>
@@ -31,7 +29,16 @@
                 </flux:navlist.group>
             </flux:navlist>
             @endrole
-
+            @role('verkoper')
+            <flux:navlist variant="outline">
+                <flux:navlist.group :heading="__('Verkopers')" class="grid">
+                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('verkopers.index')" :current="request()->routeIs('verkopers.index')" wire:navigate>
+                        {{ __('Products') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
+            </flux:navlist>
+            @endrole
 
             {{-- @role('admin')
             <flux:navlist variant="outline">
