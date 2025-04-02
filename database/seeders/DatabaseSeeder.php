@@ -3,13 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Credit; 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Credit;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
-
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,9 +21,14 @@ class DatabaseSeeder extends Seeder
 
         // Definieer permissies
         $permissions = [
+            'access user pages',
+            'access verkoper pages',
+            'access admin pages',
             'admin users',
             'admin presets',
             'manage sales',
+            'view user dashboard',
+            'manage verkopers',
         ];
 
         foreach ($permissions as $permission) {
@@ -33,9 +36,19 @@ class DatabaseSeeder extends Seeder
         }
 
         // Creëer rollen en wijs permissies toe
-        Role::firstOrCreate(['name' => 'admin'])->givePermissionTo(['admin users', 'admin presets']);
-        Role::firstOrCreate(['name' => 'verkoper'])->givePermissionTo('manage sales');
-        Role::firstOrCreate(['name' => 'user']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $adminRole->givePermissionTo(Permission::all()); // Admin krijgt alle permissies
+
+        $verkoperRole = Role::firstOrCreate(['name' => 'verkoper']);
+        $verkoperRole->givePermissionTo(['access verkoper pages', 'access user pages', 'manage verkopers']);
+
+        $userRole = Role::firstOrCreate(['name' => 'user']);
+        $userRole->givePermissionTo('access user pages');
+
+        Role::firstOrCreate(['name' => 'admin'])->givePermissionTo(['admin users', 'admin presets', 'view user dashboard', 'manage verkopers']);
+        Role::firstOrCreate(['name' => 'verkoper'])->givePermissionTo(['manage sales', 'view user dashboard']);
+        Role::firstOrCreate(['name' => 'user'])->givePermissionTo('view user dashboard');
+
 
         // Bepaal wachtwoord op basis van omgeving
         $password = config('app.env') === 'production' ? 'sa8aFebqUArIHiO' : 'password';
@@ -49,7 +62,7 @@ class DatabaseSeeder extends Seeder
                     'password' => Hash::make($password),
                 ]
             );
-            $admin->assignRole('admin');
+            $admin->assignRole($adminRole);
 
             // Voeg 10 credits toe aan de gebruiker
             Credit::firstOrCreate(['user_id' => $admin->id], ['amount' => 10]);
@@ -64,7 +77,7 @@ class DatabaseSeeder extends Seeder
                     'password' => Hash::make($password),
                 ]
             );
-            $verkoper->assignRole('verkoper');
+            $verkoper->assignRole($verkoperRole);
 
             // Voeg 10 credits toe aan de gebruiker
             Credit::firstOrCreate(['user_id' => $verkoper->id], ['amount' => 10]);
@@ -79,7 +92,7 @@ class DatabaseSeeder extends Seeder
                     'password' => Hash::make($password),
                 ]
             );
-            $user->assignRole('user');
+            $user->assignRole($userRole);
 
             // Voeg 10 credits toe aan de gebruiker
             Credit::firstOrCreate(['user_id' => $user->id], ['amount' => 10]);

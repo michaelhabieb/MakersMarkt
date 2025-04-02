@@ -25,15 +25,27 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Routes voor algemene gebruikers (user)
-    Route::middleware(['auth', 'role:user|admin'])->group(function () {
-        Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
-        // Voeg hier extra routes toe voor gebruikers
+    Route::prefix('user')->name('users.')->group(function () {
+        Route::middleware(['auth', 'can:view user dashboard'])->group(function () {
+            Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+            // Voeg hier extra routes toe voor gebruikers
+        });
     });
 
 // Routes voor verkopers
-    Route::middleware(['auth', 'role:verkoper|admin'])->prefix('verkoper')->name('verkoper.')->group(function () {
-        Route::get('/dashboard', [VerkoperController::class, 'dashboard'])->name('dashboard');
-        // Voeg hier extra routes toe voor verkopers
+    Route::prefix('verkoper')->name('verkopers.')->group(function () {
+        Route::middleware(['auth', 'can:manage verkopers'])->group(function () {
+            Route::get('/dashboard', [VerkoperController::class, 'dashboard'])->name('dashboard');
+            Route::get('/verkoop', [VerkoperController::class, 'index'])->name('index');
+            Route::get('/verkoop/create', [VerkoperController::class, 'create'])->name('create');
+            Route::post('/products', [VerkoperController::class, 'store'])->name('store');
+            Route::get('/verkoop/{id}/edit', [VerkoperController::class, 'edit'])->name('edit');
+            Route::put('/verkoop/{id}', [VerkoperController::class, 'update'])->name('update');
+            Route::delete('/verkoop/{id}', [VerkoperController::class, 'destroy'])->name('destroy');
+            Route::get('/verkoop/{id}', [VerkoperController::class, 'show'])->name('show');
+
+            // Voeg hier extra routes toe voor verkopers
+        });
     });
 
 // Routes voor beheerders (admin)
