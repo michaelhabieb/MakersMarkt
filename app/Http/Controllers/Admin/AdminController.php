@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 namespace App\Http\Controllers\admin;
 
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,11 +16,6 @@ use App\Models\Credit;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        // Zorg ervoor dat de admin gebruiker toegang heeft
-        $this->middleware('role:admin'); // Alleen admin kan toegang krijgen
-    }
 
     // Toon een lijst van alle gebruikers
     public function index()
@@ -27,8 +23,8 @@ class AdminController extends Controller
         $users = User::all();
         return view('admin.users.index', compact('users'));
     }
-  
-   public function dashboard()
+
+    public function dashboard()
     {
         return view('admin.dashboard', [
             'userCount' => User::count(),
@@ -100,4 +96,6 @@ class AdminController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', 'Gebruiker succesvol verwijderd');
     }
+
+}
 

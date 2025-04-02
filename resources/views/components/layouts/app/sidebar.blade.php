@@ -25,6 +25,9 @@
                     <flux:navlist.item icon="banknotes" :href="route('admins.credits')" :current="request()->routeIs('admins.credits')" wire:navigate>
                         {{ __('Credits Beheren') }}
                     </flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('verkopers.index')" :current="request()->routeIs('verkopers.index')" wire:navigate>
+                        {{ __('Products') }}
+                    </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
             @endrole
@@ -99,7 +102,7 @@
                                         {{ __('Credits: €') }}{{ number_format(auth()->user()->credit->amount ?? 0, 2) }}
                                     </span>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </flux:menu.radio.group>
