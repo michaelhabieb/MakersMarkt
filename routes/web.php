@@ -52,6 +52,9 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->name('admins.')->group(function () {
         Route::middleware(['auth', 'can:admin users'])->group(function () {
             Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+            Route::get('/credits', [AdminController::class, 'credits'])->name('credits');
+            Route::post('/credits/update', [AdminController::class, 'updateCredits'])->name('credits.update');
             // Voeg hier extra routes toe voor beheerders
         });
     });

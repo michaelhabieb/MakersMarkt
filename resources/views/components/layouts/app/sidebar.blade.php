@@ -18,6 +18,21 @@
             </flux:navlist>
             @role('admin')
             <flux:navlist variant="outline">
+                <flux:navlist.group :heading="__('Admin Paneel')" class="grid">
+                    <flux:navlist.item icon="home" :href="route('admins.dashboard')" :current="request()->routeIs('admins.dashboard')" wire:navigate>
+                        {{ __('Dashboard') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="banknotes" :href="route('admins.credits')" :current="request()->routeIs('admins.credits')" wire:navigate>
+                        {{ __('Credits Beheren') }}
+                    </flux:navlist.item>
+                </flux:navlist.group>
+            </flux:navlist>
+            @endrole
+
+
+            {{-- @role('admin')
+            <flux:navlist variant="outline">
+
                 <flux:navlist.group :heading="__('Verkopers')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                     <flux:navlist.item :href="route('verkopers.index')" :current="request()->routeIs('verkopers.index')" wire:navigate>
@@ -36,7 +51,10 @@
                     </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
-            @endrole
+
+            @endrole --}}
+
+
 
             @role('users')
 
@@ -77,7 +95,11 @@
                                 <div class="grid flex-1 text-left text-sm leading-tight">
                                     <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
                                     <span class="truncate text-xs">{{ auth()->user()->email }}</span>
+                                    <span class="truncate text-xs text-green-500">
+                                        {{ __('Credits: €') }}{{ number_format(auth()->user()->credit->amount ?? 0, 2) }}
+                                    </span>
                                 </div>
+                                
                             </div>
                         </div>
                     </flux:menu.radio.group>

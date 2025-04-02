@@ -1,10 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
+
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
+use App\Models\Order;
+use App\Models\Review;
+use App\Models\Moderation;
+use App\Models\Credit;
 
 class AdminController extends Controller
 {
@@ -19,6 +26,38 @@ class AdminController extends Controller
     {
         $users = User::all();
         return view('admin.users.index', compact('users'));
+    }
+  
+   public function dashboard()
+    {
+        return view('admin.dashboard', [
+            'userCount' => User::count(),
+            'orderCount' => Order::count(),
+            'reviewCount' => Review::count(),
+            'moderationCount' => Moderation::count(),
+        ]);
+    }
+
+
+    public function credits()
+    {
+        $users = User::all();
+        return view('admin.credits', compact('users'));
+    }
+
+    public function updateCredits(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'amount' => 'required|numeric',
+        ]);
+
+        $credit = Credit::firstOrCreate(['user_id' => $request->user_id]);
+        $credit->amount += $request->amount;
+        $credit->amount = max(0, $credit->amount);
+        $credit->save();
+
+        return redirect()->route('admins.credits')->with('success', 'Krediet succesvol bijgewerkt!');
     }
 
     // Toon het bewerkingsformulier voor een gebruiker
@@ -61,4 +100,4 @@ class AdminController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', 'Gebruiker succesvol verwijderd');
     }
-}
+
