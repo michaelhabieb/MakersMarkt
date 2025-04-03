@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Makers Markt</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background-color: #d7d2c1;
-        }
-    </style>
-</head>
-<body class="flex items-center justify-center min-h-screen bg-[#d7d2c1]">
-
 <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
     <h2 class="text-2xl font-bold text-center text-[#4c5c74]">Create an account</h2>
     <p class="text-center text-gray-600 text-sm mt-2">Enter your details below to create your account</p>
@@ -66,6 +51,3 @@
         <a href="{{ route('login') }}" class="text-[#4c5c74] hover:underline">Log in</a>
     </p>
 </div>
-
-</body>
-</html>
