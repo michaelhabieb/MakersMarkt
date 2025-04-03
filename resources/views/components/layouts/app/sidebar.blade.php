@@ -13,7 +13,7 @@
             </a>
 
             <flux:navlist variant="outline" class="space-y-4">
-                <flux:navlist.group :heading="__('Users')" class="grid">
+                <flux:navlist.group :heading="__('Users')" class="grid text-white">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate class="text-white hover:bg-[#3b4a62] rounded-lg p-3">
                         {{ __('Dashboard') }}
                     </flux:navlist.item>
@@ -22,7 +22,7 @@
 
             @role('admin')
             <flux:navlist variant="outline" class="space-y-4">
-                <flux:navlist.group :heading="__('Admin')" class="grid">
+                <flux:navlist.group :heading="__('Admin')" class="grid text-white">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate class="text-white hover:bg-[#3b4a62] rounded-lg p-3">
                         {{ __('Dashboard') }}
                     </flux:navlist.item>
@@ -38,7 +38,7 @@
 
             @role('verkoper')
             <flux:navlist variant="outline" class="space-y-4">
-                <flux:navlist.group :heading="__('Verkopers')" class="grid">
+                <flux:navlist.group :heading="__('Verkopers')" class="grid text-white">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate class="text-white hover:bg-[#3b4a62] rounded-lg p-3">
                         {{ __('Dashboard') }}
                     </flux:navlist.item>
