@@ -8,12 +8,13 @@
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
             <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2 p-6">
-                <!-- Custom Logo with MakersMarkt text (in white) -->
+                <!-- Logo met MakersMarkt tekst en plaatje -->
+                <img src="{{ asset('images/MakersMarkt.png') }}" alt="MakersMarkt Logo" class="w-8 h-8 -ml-2"> <!-- Logo afbeelding met negatieve marge naar links -->
                 <span class="text-2xl font-semibold text-white">MakersMarkt</span>
             </a>
 
             <flux:navlist variant="outline" class="space-y-4">
-                <flux:navlist.group :heading="__('Users')" class="grid">
+                <flux:navlist.group :heading="__('Users')" class="grid text-white">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate class="text-white hover:bg-[#3b4a62] rounded-lg p-3">
                         {{ __('Dashboard') }}
                     </flux:navlist.item>
@@ -22,7 +23,7 @@
 
             @role('admin')
             <flux:navlist variant="outline" class="space-y-4">
-                <flux:navlist.group :heading="__('Admin')" class="grid">
+                <flux:navlist.group :heading="__('Admin')" class="grid text-white">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate class="text-white hover:bg-[#3b4a62] rounded-lg p-3">
                         {{ __('Dashboard') }}
                     </flux:navlist.item>
@@ -38,7 +39,7 @@
 
             @role('verkoper')
             <flux:navlist variant="outline" class="space-y-4">
-                <flux:navlist.group :heading="__('Verkopers')" class="grid">
+                <flux:navlist.group :heading="__('Verkopers')" class="grid text-white">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate class="text-white hover:bg-[#3b4a62] rounded-lg p-3">
                         {{ __('Dashboard') }}
                     </flux:navlist.item>
