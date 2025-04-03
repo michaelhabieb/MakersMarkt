@@ -57,8 +57,11 @@
                         <!-- Duurzaamheid -->
                         <div>
                             <label for="durability" class="block text-lg font-medium text-black">Duurzaamheid</label>
-                            <input type="text" id="durability" name="durability" value="{{ old('durability') }}" class="mt-1 block w-full p-3 border border-[#96938d] rounded-xl text-black focus:ring-black focus:border-black">
+                            <input type="number" id="durability" name="durability" value="{{ old('durability') }}"
+                                   class="mt-1 block w-full p-3 border border-[#96938d] rounded-xl text-black focus:ring-black focus:border-black"
+                                   step="1" min="0">
                         </div>
+
 
                     </div>
                     <!-- Unieke Kenmerken -->
