@@ -8,7 +8,8 @@
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
             <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2 p-6">
-                <!-- Custom Logo with MakersMarkt text (in white) -->
+                <!-- Logo met MakersMarkt tekst en plaatje -->
+                <img src="{{ asset('images/MakersMarkt.png') }}" alt="MakersMarkt Logo" class="w-8 h-8 -ml-2"> <!-- Logo afbeelding met negatieve marge naar links -->
                 <span class="text-2xl font-semibold text-white">MakersMarkt</span>
             </a>
 
